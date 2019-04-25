@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangzai.collection.mapper.UserMapper">
+    <resultMap id="user_maper" type="com.yangzai.collection.entity.User">
+        <id column="user_id" property="id" jdbcType="INTEGER"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <collection property="userRoleId" ofType="com.yangzai.collection.entity.Role" select="selectByRoleId" column="user_id"></collection>
+    </resultMap>
+
+    <resultMap id="role_mapper" type="com.yangzai.collection.entity.Role">
+        <id column="role_id" property="id" jdbcType="INTEGER"></id>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"></result>
+        <collection property="permissionList" ofType="com.yangzai.collection.entity.Permission" column="role_id" select="selectByPermissionId"></collection>
+    </resultMap>
+
+    <resultMap id="permission_mapper" type="com.yangzai.collection.entity.Permission">
+        <id column="permission_id" jdbcType="INTEGER" property="id"></id>
+        <result column="permisson" jdbcType="VARCHAR" property="permission"></result>
+    </resultMap>
+
+    <sql id="UserColumn">
+        user_id,name,password
+    </sql>
+
+    <select id="selectUser" resultMap="user_maper">
+      select <include refid="UserColumn" ></include>
+       from User
+      where name=#{name} and password=#{password}
+    </select>
+
+    <sql id="RoleColumn">
+        r1.role_id,r1.role_name
+    </sql>
+
+    <select id="selectByRoleId" resultMap="role_mapper">
+        select <include refid="RoleColumn"/>
+        from role r1
+        left join  r_user_role r2 on r1.role_id=r2.role_id
+        where r2.user_id=#{user_id}
+    </select>
+
+    <sql id="permission_column">
+        p1.permission_id,p1.permisson
+    </sql>
+    <select id="selectByPermissionId" resultMap="permission_mapper">
+        select <include refid="permission_column"/>
+        from permission p1
+        left join  r_role_permission p2 on p1.permission_id=p2.permission_id
+        where p1.permission_id=#{permisssion_id}
+    </select>
+
+
+
+</mapper>
