@@ -5,6 +5,8 @@ import com.yangzai.collection.config.Computer;
 import com.yangzai.collection.entity.Person;
 import com.yangzai.collection.entity.User;
 import com.yangzai.collection.mapper.UserMapper;
+import com.yangzai.collection.pojo.vo.ErrorMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.junit.Test;
@@ -23,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,6 +34,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CollectionApplicationTests {
@@ -142,5 +146,24 @@ public class CollectionApplicationTests {
         ExecutorService threadPool1 = Executors.newCachedThreadPool();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
+    }
+
+    @Autowired
+    private ErrorMessage errorMessage;
+    @Test
+    public void ads(){
+        String name = errorMessage.getName();
+        log.info("name {}",name);
+        Map<String, String> map = errorMessage.getCode();
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        for (Map.Entry<String,String> en:entries){
+            String key = en.getKey();
+            String value = en.getValue();
+            log.info("key {}",key);
+            log.info("value {}",value);
+        }
+        map.forEach((s1,s2)->{
+            log.info("key {}",s1,"value {}",s2);
+        });
     }
 }
