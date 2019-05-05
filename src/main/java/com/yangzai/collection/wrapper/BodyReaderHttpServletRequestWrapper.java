@@ -20,8 +20,8 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
     private final byte[] body;
     public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
-        body=HttpHelper.getToString(request).getBytes("UTF-8");
-        //body= IOUtils.toByteArray(request.getInputStream());
+        //body=HttpHelper.getToString(request).getBytes("UTF-8");
+        body= IOUtils.toByteArray(request.getInputStream());
     }
 
     @Override
