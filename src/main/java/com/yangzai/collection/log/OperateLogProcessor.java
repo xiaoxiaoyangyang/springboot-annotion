@@ -10,10 +10,30 @@ import java.io.IOException;
  */
 public interface OperateLogProcessor {
     /**
+     * 获取操作日志的类型
+     * @return
+     */
+    int getOperateLogType();
+    /**
      * 执行插入操作日志处理
      *
      * @param request
      * @throws IOException
      */
     void process(HttpServletRequest request);
+
+    /**
+     * 执行插入操作日志处理
+     *
+     * @param accessToken
+     * @param o
+     */
+    void process(String accessToken, Object o);
+    /**
+     * 请求预处理参数
+     *
+     * @param request
+     */
+    default void preHandle(HttpServletRequest request) {
+    }
 }

@@ -142,7 +142,7 @@ public class MyAop {
         long start = System.currentTimeMillis();
 
         //执行
-        ResponseEntity result = (ResponseEntity)joinPoint.proceed();
+        Object result = joinPoint.proceed();
         long timeConsuming = System.currentTimeMillis() - start;
         log.info("request end --> return:{} time consuming:{}ms || ReqType :{}", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming, methodType);
         return result;

@@ -4,9 +4,8 @@ import com.yangzai.collection.log.OperateLogProcessor;
 
 /**
  * @Author: guozhiyang_vendor
- * @Date: 2019/5/16 15:20
+ * @Date: 2019/5/16 20:02
  * @Version 1.0
  */
-public interface OperateLogProcessorFactory  {
-    OperateLogProcessor operateLogProcessor(int type);
+public abstract class AbstractOperateLogProcessor implements OperateLogProcessor {
 }
