@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-@WebFilter(urlPatterns = "/*",filterName = "myTestFilter")
+@WebFilter(urlPatterns = "/**",filterName = "myTestFilter")
 public class MyFilter implements Filter {
 
     @Override
@@ -33,6 +33,7 @@ public class MyFilter implements Filter {
             String parameter = bodyReaderHttpServletRequestWrapper.getParameter(s);
             map.put(s,parameter);
         }
+        filterChain.doFilter(servletRequest,servletResponse);
         log.info("请求路径----------->[{}],请求的参数-------------->[{}]",requestURI,map.toString());
     }
 }

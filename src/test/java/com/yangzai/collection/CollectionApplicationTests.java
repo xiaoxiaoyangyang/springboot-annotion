@@ -1,32 +1,25 @@
 package com.yangzai.collection;
 
-import com.yangzai.collection.config.BeanConfig;
-import com.yangzai.collection.config.Computer;
+import com.yangzai.collection.entityconfig.BeanConfig;
+import com.yangzai.collection.entityconfig.Computer;
 import com.yangzai.collection.entity.Person;
 import com.yangzai.collection.entity.User;
 import com.yangzai.collection.mapper.UserMapper;
 import com.yangzai.collection.pojo.vo.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.comparator.Comparators;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;

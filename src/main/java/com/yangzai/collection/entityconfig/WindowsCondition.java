@@ -1,12 +1,9 @@
-package com.yangzai.collection.config;
+package com.yangzai.collection.entityconfig;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-
-import java.lang.annotation.Annotation;
 
 /**
  * @Author: guozhiyang_vendor

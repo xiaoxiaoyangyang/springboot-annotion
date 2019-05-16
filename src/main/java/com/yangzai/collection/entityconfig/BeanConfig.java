@@ -1,4 +1,4 @@
-package com.yangzai.collection.config;
+package com.yangzai.collection.entityconfig;
 
 import com.yangzai.collection.entity.Person;
 import org.springframework.context.annotation.Bean;

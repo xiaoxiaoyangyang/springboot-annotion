@@ -47,69 +47,69 @@ public class MyAop {
      *切入点
      * @annotation(* com.yangzai.collection.aop.*.*(..))
      */
-    @Pointcut("@annotation(com.yangzai.collection.aop.MyTest)")
+    @Pointcut("@annotation(com.yangzai.collection.annotation.LogAnnotation)")
     public void cotrollerAspect(){}
 
     @Autowired
     private HttpServletRequest request;
 
-    @Around("cotrollerAspect()")
-    public Object aroundAdvice1(ProceedingJoinPoint joinPoint) throws Throwable {
-        //获取全类名
-        String name = joinPoint.getTarget().getClass().getName();
-        log.info("controller name {}-------------->"+name);
-        Class<?> aClass = Class.forName(name);
-
-
-        //获取方法的名字
-        String name2 = joinPoint.getSignature().getName();
-        log.info("signature {}-----------------"+name2);
-
-
-        Object proceed = joinPoint.proceed();
-
-        //获取方法的注解上的属性
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
-        Method method2 = signature.getMethod();
-        MyTest annotation = method2.getAnnotation(MyTest.class);
-        int id = annotation.id();
-        String name3 = annotation.name();
-        log.info("id {}-------------------->"+id);
-        log.info("name3 {}---------------------->"+name3);
-        //获取方法中所所传递的参数的值
-        Object[] args = joinPoint.getArgs();
-        Map<String,Object> map=new HashMap();
-
-        Class<?>[] parameterTypes = method2.getParameterTypes();
-        for(Class ca:parameterTypes){
-            Field[] fields = ca.getDeclaredFields();
-            for(int i=0;i<parameterTypes.length;i++){
-                String name1 = fields[i].getName();
-                System.out.println(name1+"&&&&&&&&&&*************");
-            }
-        }
-
-        String method = request.getMethod();
-        log.info("method {}-------------------->"+method);
-        //获取httpServletRequest
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
-        HttpServletRequest servletRequest = requestAttributes.getRequest();
-        String method1 = servletRequest.getMethod();
-        log.info("method1 {}----------------------->"+method1);
-        //   /collection
-        String contextPath = servletRequest.getContextPath();
-        log.info("context path {}----------------------->"+contextPath);
-        //  /selectOne
-        String servletPath = servletRequest.getServletPath();
-        log.info("servlet path {}---------------->"+servletPath);
-        // /collection/selectOne
-        String requestURI = servletRequest.getRequestURI();
-        log.info("request uri {}------------------>"+requestURI);
-        // http://localhost:8080/collection/selectOne
-        StringBuffer requestURL = servletRequest.getRequestURL();
-        log.info("request url {}------------------->"+requestURL);
-        return proceed;
-    }
+//    @Around("cotrollerAspect()")
+//    public Object aroundAdvice1(ProceedingJoinPoint joinPoint) throws Throwable {
+//        //获取全类名
+//        String name = joinPoint.getTarget().getClass().getName();
+//        log.info("controller name {}-------------->"+name);
+//        Class<?> aClass = Class.forName(name);
+//
+//
+//        //获取方法的名字
+//        String name2 = joinPoint.getSignature().getName();
+//        log.info("signature {}-----------------"+name2);
+//
+//
+//        Object proceed = joinPoint.proceed();
+//
+//        //获取方法的注解上的属性
+//        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+//        Method method2 = signature.getMethod();
+//        MyTest annotation = method2.getAnnotation(MyTest.class);
+//        int id = annotation.id();
+//        String name3 = annotation.name();
+//        log.info("id {}-------------------->"+id);
+//        log.info("name3 {}---------------------->"+name3);
+//        //获取方法中所所传递的参数的值
+//        Object[] args = joinPoint.getArgs();
+//        Map<String,Object> map=new HashMap();
+//
+//        Class<?>[] parameterTypes = method2.getParameterTypes();
+//        for(Class ca:parameterTypes){
+//            Field[] fields = ca.getDeclaredFields();
+//            for(int i=0;i<parameterTypes.length;i++){
+//                String name1 = fields[i].getName();
+//                System.out.println(name1+"&&&&&&&&&&*************");
+//            }
+//        }
+//
+//        String method = request.getMethod();
+//        log.info("method {}-------------------->"+method);
+//        //获取httpServletRequest
+//        ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest servletRequest = requestAttributes.getRequest();
+//        String method1 = servletRequest.getMethod();
+//        log.info("method1 {}----------------------->"+method1);
+//        //   /collection
+//        String contextPath = servletRequest.getContextPath();
+//        log.info("context path {}----------------------->"+contextPath);
+//        //  /selectOne
+//        String servletPath = servletRequest.getServletPath();
+//        log.info("servlet path {}---------------->"+servletPath);
+//        // /collection/selectOne
+//        String requestURI = servletRequest.getRequestURI();
+//        log.info("request uri {}------------------>"+requestURI);
+//        // http://localhost:8080/collection/selectOne
+//        StringBuffer requestURL = servletRequest.getRequestURL();
+//        log.info("request url {}------------------->"+requestURL);
+//        return proceed;
+//    }
     @Around("cotrollerAspect()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         String classType = joinPoint.getTarget().getClass().getName();
@@ -136,7 +136,7 @@ public class MyAop {
 
         //执行
         Object result = joinPoint.proceed();
-
+        
         long timeConsuming = System.currentTimeMillis() - start;
         log.info("request end --> return:{} time consuming:{}ms || ReqType :{}", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming, methodType);
         return result;

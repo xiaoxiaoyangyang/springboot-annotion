@@ -1,4 +1,4 @@
-package com.yangzai.collection.config;
+package com.yangzai.collection.entityconfig;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

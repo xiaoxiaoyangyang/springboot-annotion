@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangzai.collection.mapper.OperateLogMapper">
+    <resultMap id="result_map" type="com.yangzai.collection.log.entity.LogEntity">
+        <id column="log_id" property="logId" jdbcType="INTEGER"></id>
+        <result column="log_desc" property="logDesc" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"></result>
+        <result column="user_id" property="userId" jdbcType="INTEGER"></result>
+        <result column="module_id" property="moduleId" jdbcType="INTEGER"></result>
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <sql id="insertLog">
+        log_desc,create_time,user_id,module_id,module_name
+    </sql>
+
+    <insert id="insert">
+        insert into operate_log(
+        <include refid="insertLog"/>
+        )
+        values(
+        #{logDesc},#{createTime},#{userId},#{moduleId},#{moduleName}
+        )
+    </insert>
+</mapper>

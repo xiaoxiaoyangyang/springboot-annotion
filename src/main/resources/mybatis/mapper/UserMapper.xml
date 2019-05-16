@@ -50,6 +50,8 @@
         where p1.permission_id=#{permisssion_id}
     </select>
 
-
+    <delete id="deleteUser">
+        delete from user where user_id=#{userId}
+    </delete>
 
 </mapper>

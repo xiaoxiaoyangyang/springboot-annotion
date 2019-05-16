@@ -1,5 +1,6 @@
 package com.yangzai.collection.controller;
 
+import com.yangzai.collection.annotation.LogAnnotation;
 import com.yangzai.collection.aop.MyTest;
 import com.yangzai.collection.entity.User;
 import com.yangzai.collection.mapper.UserMapper;
@@ -8,8 +9,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: guozhiyang_vendor
@@ -21,11 +23,18 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @RequestMapping(value = "selectOne",method = RequestMethod.GET)
-    public ResponseEntity<User> selectOne(
-            @ModelAttribute User user) throws InterruptedException {
+    @GetMapping("selectOne")
+    @LogAnnotation(name = "用户登陆")
+    public ResponseEntity<User> selectOne(@ModelAttribute User user) throws InterruptedException {
         User user1 = userMapper.selectUser(user.getName(), user.getPassword());
         ResponseEntity<User> userResponseEntity = new ResponseEntity<>(user1, HttpStatus.OK);
         return userResponseEntity;
+    }
+
+    @DeleteMapping("delete/userId")
+    @LogAnnotation(name = "删除用户")
+    public ResponseEntity<Integer> delete(@PathVariable(value = "userId")Integer userId){
+        Integer integer = userMapper.deleteUser(userId);
+        return new ResponseEntity<>(integer,HttpStatus.OK);
     }
 }

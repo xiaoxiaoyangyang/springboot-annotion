@@ -14,7 +14,6 @@ import java.util.Map;
  * @Version 1.0
  */
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "")
 @PropertySource(value = {"classpath:config/ValidationMessages.properties"},encoding = "UTF-8")
 public class ErrorMessage {
