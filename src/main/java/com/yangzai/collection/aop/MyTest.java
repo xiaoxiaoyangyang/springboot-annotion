@@ -12,5 +12,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MyTest {
     String name() default "";
+    String className() default "";
     int id() default 0;
 }

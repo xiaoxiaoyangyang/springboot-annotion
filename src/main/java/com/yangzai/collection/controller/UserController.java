@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -24,7 +25,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping("selectOne")
-    @LogAnnotation(name = "用户登陆")
+    @LogAnnotation(name = "用户登陆",className = User.class)
     public ResponseEntity<User> selectOne(@ModelAttribute User user) throws InterruptedException {
         User user1 = userMapper.selectUser(user.getName(), user.getPassword());
         ResponseEntity<User> userResponseEntity = new ResponseEntity<>(user1, HttpStatus.OK);
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @DeleteMapping("delete/userId")
-    @LogAnnotation(name = "删除用户")
+    @LogAnnotation(name = "删除用户",className = User.class)
     public ResponseEntity<Integer> delete(@PathVariable(value = "userId")Integer userId){
         Integer integer = userMapper.deleteUser(userId);
         return new ResponseEntity<>(integer,HttpStatus.OK);

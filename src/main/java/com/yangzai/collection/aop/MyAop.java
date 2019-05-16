@@ -1,9 +1,12 @@
 package com.yangzai.collection.aop;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.yangzai.collection.annotation.LogAnnotation;
 import com.yangzai.collection.entity.User;
+import com.yangzai.collection.mapper.OperateLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.ClassClassPath;
 import org.apache.ibatis.javassist.ClassPool;
@@ -20,6 +23,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -51,7 +56,7 @@ public class MyAop {
     public void cotrollerAspect(){}
 
     @Autowired
-    private HttpServletRequest request;
+    private OperateLogMapper operateLogMapper;
 
 //    @Around("cotrollerAspect()")
 //    public Object aroundAdvice1(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -125,6 +130,8 @@ public class MyAop {
         Map<String, Object> map = getFieldsName(this.getClass(), clazzName, methodName, args);
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method1 = signature.getMethod();
+        LogAnnotation annotation = method1.getAnnotation(LogAnnotation.class);
 
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -135,8 +142,7 @@ public class MyAop {
         long start = System.currentTimeMillis();
 
         //执行
-        Object result = joinPoint.proceed();
-        
+        ResponseEntity result = (ResponseEntity)joinPoint.proceed();
         long timeConsuming = System.currentTimeMillis() - start;
         log.info("request end --> return:{} time consuming:{}ms || ReqType :{}", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming, methodType);
         return result;
