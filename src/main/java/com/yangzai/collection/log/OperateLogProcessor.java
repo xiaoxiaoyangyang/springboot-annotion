@@ -25,10 +25,9 @@ public interface OperateLogProcessor {
     /**
      * 执行插入操作日志处理
      *
-     * @param accessToken
      * @param o
      */
-    void process(String accessToken, Object o);
+    void process(Object o);
 
     /**
      * 请求预处理参数

@@ -14,4 +14,6 @@ public interface UserMapper {
     User selectUser(@Param(value = "name")String name, @Param(value = "password")String password);
 
     Integer deleteUser(Integer userId);
+
+    User selectByUserId(Integer userId);
 }

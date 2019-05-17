@@ -54,4 +54,18 @@
         delete from user where user_id=#{userId}
     </delete>
 
+    <resultMap id="UserEntity" type="com.yangzai.collection.entity.User">
+        <id column="user_id" property="id" jdbcType="INTEGER"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <sql id="user_sql">
+        user_id,name,password
+    </sql>
+    <select id="selectByUserId" resultMap="UserEntity">
+        select
+        <include refid="user_sql"/>
+        from user where user_id=#{userId}
+    </select>
+
 </mapper>
