@@ -23,9 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private UserMapper userMapper;
-
     @GetMapping("selectOne")
-    @LogAnnotation(name = "用户登陆",className = User.class)
+    @LogAnnotation(name = "用户登陆",userId = 1,moduleId = 1,moduleName = "用户模块")
     public ResponseEntity<User> selectOne(@ModelAttribute User user) throws InterruptedException {
         User user1 = userMapper.selectUser(user.getName(), user.getPassword());
         ResponseEntity<User> userResponseEntity = new ResponseEntity<>(user1, HttpStatus.OK);
@@ -33,7 +32,7 @@ public class UserController {
     }
 
     @DeleteMapping("delete/userId")
-    @LogAnnotation(name = "删除用户",className = User.class)
+    @LogAnnotation(name = "删除用户")
     public ResponseEntity<Integer> delete(@PathVariable(value = "userId")Integer userId){
         Integer integer = userMapper.deleteUser(userId);
         return new ResponseEntity<>(integer,HttpStatus.OK);

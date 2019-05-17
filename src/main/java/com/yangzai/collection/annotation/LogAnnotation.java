@@ -12,5 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogAnnotation {
     String name() default "";
-    Class className();
+    int userId() default 0;
+    int moduleId() default 0;
+    String moduleName() default "";
 }

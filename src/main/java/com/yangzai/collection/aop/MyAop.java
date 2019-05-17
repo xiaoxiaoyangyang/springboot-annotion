@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yangzai.collection.annotation.LogAnnotation;
 import com.yangzai.collection.entity.User;
+import com.yangzai.collection.log.entity.LogEntity;
 import com.yangzai.collection.mapper.OperateLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.ClassClassPath;
@@ -34,6 +35,8 @@ import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -48,6 +51,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class MyAop {
+
+    private static LogEntity logEntity = new LogEntity();
+
     /**
      *切入点
      * @annotation(* com.yangzai.collection.aop.*.*(..))
@@ -132,7 +138,7 @@ public class MyAop {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method1 = signature.getMethod();
         LogAnnotation annotation = method1.getAnnotation(LogAnnotation.class);
-
+        LogEntity logEntity = convertLogEntity(annotation);
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
@@ -143,6 +149,8 @@ public class MyAop {
 
         //执行
         Object result = joinPoint.proceed();
+        //进行日志的插入
+        Integer insert = operateLogMapper.insert(logEntity);
         long timeConsuming = System.currentTimeMillis() - start;
         log.info("request end --> return:{} time consuming:{}ms || ReqType :{}", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming, methodType);
         return result;
@@ -174,5 +182,14 @@ public class MyAop {
             e.printStackTrace();
         }
         return map;
+    }
+
+    public LogEntity convertLogEntity(LogAnnotation annotation){
+        logEntity.setModuleId(annotation.moduleId());
+        logEntity.setModuleName(annotation.moduleName());
+        logEntity.setLogDesc(annotation.name());
+        logEntity.setUserId(annotation.userId());
+        logEntity.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+        return logEntity;
     }
 }

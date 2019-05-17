@@ -31,5 +31,5 @@ public class LogProcessorImpl extends AbstractOperateLogProcessor {
     public void process(String accessToken, Object o) {
 
     }
-    
+
 }

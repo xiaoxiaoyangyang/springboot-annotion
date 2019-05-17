@@ -29,6 +29,7 @@ public interface OperateLogProcessor {
      * @param o
      */
     void process(String accessToken, Object o);
+
     /**
      * 请求预处理参数
      *
