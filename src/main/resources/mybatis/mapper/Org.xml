@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangzai.collection.mapper.OrgMapper">
+    <resultMap id="OrgMapper" type="com.yangzai.collection.entity.Org">
+        <id column="org_id" property="orgId" jdbcType="INTEGER"></id>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"></result>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"></result>
+        <result column="tree_path" property="treePath" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <sql id="org_column">
+        org_id,parent_id,org_name,tree_path
+    </sql>
+
+    <select id="selectAll" resultMap="OrgMapper">
+        select <include refid="org_column"/>
+        from org
+    </select>
+
+</mapper>

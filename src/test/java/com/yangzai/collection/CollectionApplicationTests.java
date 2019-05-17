@@ -1,9 +1,11 @@
 package com.yangzai.collection;
 
+import com.yangzai.collection.entity.Org;
 import com.yangzai.collection.entityconfig.BeanConfig;
 import com.yangzai.collection.entityconfig.Computer;
 import com.yangzai.collection.entity.Person;
 import com.yangzai.collection.entity.User;
+import com.yangzai.collection.mapper.OrgMapper;
 import com.yangzai.collection.mapper.UserMapper;
 import com.yangzai.collection.pojo.vo.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
@@ -141,22 +141,37 @@ public class CollectionApplicationTests {
 
     }
 
+
+
     @Autowired
-    private ErrorMessage errorMessage;
+    private OrgMapper orgMapper;
     @Test
-    public void ads(){
-        String name = errorMessage.getName();
-        log.info("name {}",name);
-        Map<String, String> map = errorMessage.getCode();
-        Set<Map.Entry<String, String>> entries = map.entrySet();
-        for (Map.Entry<String,String> en:entries){
-            String key = en.getKey();
-            String value = en.getValue();
-            log.info("key {}",key);
-            log.info("value {}",value);
+    public void listOrg(){
+        List<Org> orgs = orgMapper.selectAll();
+        List<Org> orgs1 = toTreeList(orgs, 0);
+        System.out.println(orgs1.toString());
+    }
+    private List<Org> toTreeList(List<Org> childList, Integer parentId) {
+        if (childList != null && !childList.isEmpty()) {
+            List<Org> treeList = new ArrayList<>();
+            Map<Integer, Org> dataMap = new HashMap<>(16);
+            for (Org model : childList) {
+
+                if (model.getParentId().equals(parentId)) {
+                    treeList.add(model);
+                }
+
+                Org parentModel = dataMap.get(model.getParentId());
+
+                if (parentModel != null) {
+                    parentModel.getList().add(model);
+                }
+
+                dataMap.put(model.getOrgId(), model);
+            }
+
+            return treeList;
         }
-        map.forEach((s1,s2)->{
-            log.info("key {}",s1,"value {}",s2);
-        });
+        return null;
     }
 }

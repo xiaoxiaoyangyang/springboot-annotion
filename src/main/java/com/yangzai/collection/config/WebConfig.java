@@ -52,14 +52,14 @@ public class WebConfig implements WebMvcConfigurer {
      * 添加日志拦截器
      * @param registry
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(operateLogInterceptor()).addPathPatterns("/**");
-        WebMvcConfigurer.super.addInterceptors(registry);
-    }
-
-    @Bean
-    public OperateLogInterceptor operateLogInterceptor() {
-        return new OperateLogInterceptor();
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(operateLogInterceptor()).addPathPatterns("/**");
+//        WebMvcConfigurer.super.addInterceptors(registry);
+//    }
+//
+//    @Bean
+//    public OperateLogInterceptor operateLogInterceptor() {
+//        return new OperateLogInterceptor();
+//    }
 }
